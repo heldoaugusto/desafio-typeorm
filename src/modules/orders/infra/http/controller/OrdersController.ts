@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, json } from 'express';
 
 import { container } from 'tsyringe';
 
@@ -11,6 +11,13 @@ export default class OrdersController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    // TODO
+    const { customer_id } = request.body;
+    const { products } = request.body.products;
+
+    const CreateOrder = container.resolve(CreateOrderService);
+
+    CreateOrder.execute({ customer_id, products });
+
+    return response.json(200);
   }
 }
